@@ -1,10 +1,28 @@
 #!/bin/bash
 
-while read -r number; do
-    for ((i = 2; i <= number / 2; i++)); do
-        if ((number % i == 0)); then
-            echo "$number=$i*$(($number / $i))"
-            break
-        fi
+function factorize() {
+    local number_to_check=$1
+    local i=2
+
+    if ((number_to_check < 2)); then
+        return
+    fi
+
+    while ((number_to_check % i)); do
+        ((i++))
     done
-done < "$1"
+
+    echo "$number_to_check=$(($number_to_check / $i))*$i"
+}
+
+if [[ $# -ne 1 ]]; then
+    exit 1
+fi
+
+input_file=$1
+
+while read -r line; do
+    number_to_check=$(echo $line | tr -d '\n')
+    factorize $number_to_check
+done < "$input_file"
+
