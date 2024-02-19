@@ -1,18 +1,26 @@
 #!/usr/bin/python3
+"""RSA factoring ... continued"""
+
 import sys
-from sympy import factorint
 
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python rsa_factorization.py <file>")
-        sys.exit(1)
-
-    input_file = sys.argv[1]
-
-    with open(input_file, 'r') as file:
-        rsa_number = int(file.read().strip())
-        factors = factorint(rsa_number)
-        p, q = factors.keys()
-        print(f"RSA number: {rsa_number}")
-        print(f"p = {p}, q = {q}")
-
+def factorize():
+    """I kinda forgot how this works...kinda"""
+    try:
+        f_name = sys.argv[1]
+        with open(f_name) as f:
+            for ln in f:
+                ln = int(ln)
+                if ln % 2 == 0:
+                        print("{}={}*{}".format(ln, ln // 2, 2))
+                        continue
+                i = 3
+                while i < ln // 2:
+                    if ln % i == 0:
+                        print("{}={}*{}".format(ln, ln // i, i))
+                        break
+                    i = i + 2
+                if i == (ln // 2) + 1:
+                    print("{}={}*{}".format(ln, ln, 1))
+    except (IndexError):
+        pass
+factorize()
