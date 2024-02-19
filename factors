@@ -1,28 +1,33 @@
-#!/bin/bash
+#!/usr/bin/env python3
+""" Factor prime numbers """
 
-function factorize() {
-    local number_to_check=$1
-    local i=2
+from sys import argv
+from math import sqrt
 
-    if ((number_to_check < 2)); then
-        return
-    fi
 
-    while ((number_to_check % i)); do
-        ((i++))
-    done
+def fd(f_name):
+    """reading from file and adding to array"""
 
-    echo "$number_to_check=$(($number_to_check / $i))*$i"
-}
+    with open(f_name, "r", encoding="utf-8") as file:
+        lines = file.readlines()
+    n2f = []
+    for line in lines:
+        n2f.append(int(line))
+    return n2f
 
-if [[ $# -ne 1 ]]; then
-    exit 1
-fi
+def mult(n):
+    """factoring n given numbers"""
 
-input_file=$1
+    for i in range(1, n):
+        if n == ((n // i) * i):
+            print("{}={}*{}".format(n, (n // i), i))
+            break
 
-while read -r line; do
-    number_to_check=$(echo $line | tr -d '\n')
-    factorize $number_to_check
-done < "$input_file"
+def factoring_list(ls):
+    """factoring each number in list"""
 
+    for i in ls:
+        mult(i)
+
+if len(argv) == 2:
+    factoring_list(fd(argv[1]))
